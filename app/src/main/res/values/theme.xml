@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Nasa" parent="Theme.Nasa.Base"/>
+
+    <style name="Theme.Nasa.Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/nasa_white</item>
+        <item name="colorSecondary">@color/nasa_black</item>
+        <item name="colorAccent">@color/nasa_red</item>
+        <item name="colorSecondaryVariant">@color/nasa_black_6</item>
+
+        <item name="android:colorBackground">@color/nasa_black_96</item>
+        <item name="colorSurface">@color/nasa_black_96</item>
+        <item name="colorPrimarySurface">@color/nasa_black_96</item>
+        <item name="colorError">@color/nasa_red</item>
+
+        <item name="colorOnPrimary">@color/nasa_black_26</item>
+        <item name="colorOnSecondary">@color/nasa_white</item>
+        <item name="colorOnBackground">@color/nasa_black_26</item>
+        <item name="colorOnSurface">@color/nasa_black_26</item>
+        <item name="colorOnError">@color/nasa_white</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/navigationBar_color</item>
+
+        <!--Typography-->
+
+        <item name="textAppearanceHeadline1">@style/TextAppearance.Nasa.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.Nasa.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.Nasa.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.Nasa.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.Nasa.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.Nasa.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.Nasa.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.Nasa.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.Nasa.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.Nasa.Body2</item>
+        <item name="textAppearanceButton">@style/TextAppearance.Nasa.Button</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.Nasa.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.Nasa.Overline</item>
+
+    </style>
+
+</resources>
