@@ -12,7 +12,7 @@
 
         <item name="colorSecondaryVariant">@color/nasa_black_6</item>
 
-        <item name="android:colorBackground">@color/nasa_black_96</item>
+        <item name="android:colorBackground">@color/nasa_black_6</item>
         <item name="colorSurface">@color/nasa_black_96</item>
         <item name="colorPrimarySurface">@color/nasa_black_96</item>
         <item name="colorError">@color/nasa_red</item>
