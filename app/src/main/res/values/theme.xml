@@ -7,7 +7,9 @@
 
         <item name="colorPrimary">@color/nasa_white</item>
         <item name="colorSecondary">@color/nasa_black</item>
+        <item name="colorTertiary">@color/nasa_blue</item>
         <item name="colorAccent">@color/nasa_red</item>
+
         <item name="colorSecondaryVariant">@color/nasa_black_6</item>
 
         <item name="android:colorBackground">@color/nasa_black_96</item>

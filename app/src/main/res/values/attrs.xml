@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--A third color to represent nasa blue addition to
+    primary : white, secondary : black, tertiary : nasa blue, accent: nasa red-->
+    <attr name="colorTertiary" format="color"/>
+    
+</resources>

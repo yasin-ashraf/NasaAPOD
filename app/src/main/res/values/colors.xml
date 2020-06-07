@@ -18,10 +18,13 @@
 
     <color name="nasa_white_f2">#f2f2f2</color>
     <color name="nasa_white_ba">#bababa</color>
+    <color name="nasa_blue_transparent">#600B3D91</color>
 
-    <color name="nasa_red">#e5023c</color>
-    <color name="navigationBar_color">#90464646</color>
-    <color name="snackBar_color">#afe5023c</color>
+    <color name="nasa_red">#FC3D21</color>
+    <color name="nasa_blue">#0B3D91</color>
+
+    <color name="navigationBar_color">#10464646</color>
+    <color name="snackBar_color">#AFFC3D21</color>
 
 
 </resources>

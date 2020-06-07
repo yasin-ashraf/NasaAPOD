@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">Nasa</string>
+    <string name="zoom">Zoom</string>
 </resources>
