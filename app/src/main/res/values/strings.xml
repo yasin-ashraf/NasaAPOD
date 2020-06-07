@@ -3,4 +3,5 @@
     <string name="zoom">Zoom</string>
     <string name="no_internet">No Internet Connection. Check if you are connected to Internet.</string>
     <string name="action_retry">Retry</string>
+    <string name="play">Play</string>
 </resources>

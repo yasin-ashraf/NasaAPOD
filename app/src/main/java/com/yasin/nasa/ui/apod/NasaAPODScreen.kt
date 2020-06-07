@@ -17,6 +17,7 @@ import com.yasin.nasa.data.model.Apod
 import com.yasin.nasa.databinding.ScreenFirstBinding
 import com.yasin.nasa.getAppComponent
 import com.yasin.nasa.network.NetworkState.*
+import com.yasin.nasa.util.TYPE_IMAGE
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -80,6 +81,8 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
     private fun render(apod: Apod?) {
         binding.tvHeadline.text = apod?.title
         binding.tvDescription.text = apod?.explanation
+        if (apod?.mediaType == TYPE_IMAGE) binding.tvButton.text = getString(R.string.zoom)
+        else binding.tvButton.text = getString(R.string.play)
         picasso.load(apod?.hdurl)
             .fit()
             .into(binding.ivApod,imageLoadCallBack)

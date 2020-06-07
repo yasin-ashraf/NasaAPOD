@@ -122,6 +122,7 @@
             app:layout_constraintStart_toStartOf="@id/margin_start">
 
             <TextView
+                android:id="@+id/tv_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
