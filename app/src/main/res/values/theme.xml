@@ -3,7 +3,7 @@
 
     <style name="Theme.Nasa" parent="Theme.Nasa.Base"/>
 
-    <style name="Theme.Nasa.Base" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Nasa.Base" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <item name="colorPrimary">@color/nasa_white</item>
         <item name="colorSecondary">@color/nasa_black</item>
