@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/nasaAPODScreen"
-        android:name="com.yasin.nasa.NasaAPODScreen"
+        android:name="com.yasin.nasa.ui.apod.NasaAPODScreen"
         android:label="NasaAPODScreen"
         tools:layout="@layout/screen_first"/>
 </navigation>
