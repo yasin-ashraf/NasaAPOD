@@ -1,6 +1,21 @@
 <resources>
 
     <!--Custom Styles-->
+    <style name="Nasa.DatePickerTheme" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="android:datePickerStyle">@style/MaterialDatePickerStyle</item>
+        <item name="colorPrimary">@color/nasa_white</item><!--Button bg color-->
+        <item name="colorOnPrimary">@color/nasa_blue</item><!--Button text color-->
+        <item name="android:textColorPrimaryInverse">?attr/colorTertiary
+        </item> <!-- header date, month color && calendar text highlight color -->
+        <item name="android:textColorSecondaryInverse">?attr/colorTertiary
+        </item> <!-- header year color -->
+        <item name="colorControlActivated">@color/nasa_blue_transparent_20</item>
+        <item name="fontFamily">@font/roboto_slab_bold</item>
+        <item name="android:windowBackground">@drawable/rectangle_bg_white_radius_10</item>
+    </style>
 
+    <style name="MaterialDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">@color/nasa_white</item> <!-- header background color -->
+    </style>
 
 </resources>

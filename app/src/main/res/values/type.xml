@@ -40,7 +40,7 @@
     <style name="TextAppearance.Nasa.Body1" parent="TextAppearance.MaterialComponents.Body1">
         <item name="fontFamily">@font/roboto_slab</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/nasa_white_ba</item>
+        <item name="android:textColor">@color/nasa_white_f2</item>
         <item name="lineHeight">24sp</item>
     </style>
 

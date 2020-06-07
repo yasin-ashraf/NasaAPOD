@@ -12,6 +12,9 @@ import retrofit2.http.Query
 interface NasaApiInterface {
 
     @GET(APOD_ENDPOINT)
-    fun getApod(@Query("api_key") apiKey : String) : Single<Apod>
+    fun getApod(
+        @Query("api_key") apiKey: String,
+        @Query("date") date: String
+    ): Single<Apod>
 
 }

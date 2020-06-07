@@ -1,5 +1,6 @@
 package com.yasin.nasa.ui.apod
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
@@ -18,7 +19,7 @@ import com.yasin.nasa.databinding.ScreenFirstBinding
 import com.yasin.nasa.getAppComponent
 import com.yasin.nasa.network.NetworkState.*
 import com.yasin.nasa.util.TYPE_IMAGE
-import java.lang.Exception
+import java.util.Calendar.*
 import javax.inject.Inject
 
 /**
@@ -31,6 +32,7 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
     private lateinit var binding: ScreenFirstBinding
     private val nasaAPODViewModel: NasaAPODViewModel by navGraphViewModels(R.id.nav_main) { nasaAPODViewModelFactory }
     private lateinit var snackbar: Snackbar
+    private var animated : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         getAppComponent().injectApodScreen(this)
@@ -46,36 +48,50 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
 
     private fun init() {
         makeSnackBar()
+        subscribeApodData()
+        binding.buttonCalendar.setOnClickListener { showDatePicker() }
+    }
+
+    private fun subscribeApodData() {
         nasaAPODViewModel.apodData.observe(this.viewLifecycleOwner, Observer {
             when (it) {
-                is Loading -> { binding.progressBar.visibility = View.VISIBLE }
+                is Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
                 is Success -> {
                     render(it.data)
                     hideSnackBar()
                 }
-                is NetworkError -> {showSnackBar()}
-                is Error -> {}
+                is NetworkError -> {
+                    showSnackBar()
+                }
+                is Error -> {
+                }
             }
         })
     }
 
     private fun makeSnackBar() {
-        snackbar = Snackbar.make(binding.snackBarView, getString(R.string.no_internet), Snackbar.LENGTH_INDEFINITE)
+        snackbar = Snackbar.make(
+            binding.snackBarView,
+            getString(R.string.no_internet),
+            Snackbar.LENGTH_INDEFINITE
+        )
             .setAction(getString(R.string.action_retry)) {
                 nasaAPODViewModel.getApod()
             }
-            .setTextColor(ContextCompat.getColor(requireContext(),R.color.nasa_white))
-            .setActionTextColor(ContextCompat.getColor(requireContext(),R.color.nasa_white))
-            .setBackgroundTint(ContextCompat.getColor(requireContext(),R.color.snackBar_color))
+            .setTextColor(ContextCompat.getColor(requireContext(), R.color.nasa_white))
+            .setActionTextColor(ContextCompat.getColor(requireContext(), R.color.nasa_white))
+            .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.snackBar_color))
     }
 
     private fun showSnackBar() {
-        if(snackbar.isShownOrQueued) snackbar.dismiss()
-        Handler().postDelayed({ snackbar.show() },500) //delay snackBar
+        if (snackbar.isShownOrQueued) snackbar.dismiss()
+        Handler().postDelayed({ snackbar.show() }, 500) //delay snackBar
     }
 
     private fun hideSnackBar() {
-        if(snackbar.isShownOrQueued) snackbar.dismiss()
+        if (snackbar.isShownOrQueued) snackbar.dismiss()
     }
 
     private fun render(apod: Apod?) {
@@ -83,37 +99,64 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
         binding.tvDescription.text = apod?.explanation
         if (apod?.mediaType == TYPE_IMAGE) binding.tvButton.text = getString(R.string.zoom)
         else binding.tvButton.text = getString(R.string.play)
-        picasso.load(apod?.hdurl)
-            .fit()
-            .into(binding.ivApod,imageLoadCallBack)
+        if(!apod?.hdurl.isNullOrEmpty()){
+            picasso.load(apod?.hdurl)
+                .fit()
+                .into(binding.ivApod, imageLoadCallBack)
+        }else {
+            binding.progressBar.visibility = View.GONE
+            if (!animated) animateViewsIn()
+        }
     }
 
-    private val imageLoadCallBack : Callback = object : Callback {
+    private val imageLoadCallBack: Callback = object : Callback {
         override fun onSuccess() {
             binding.progressBar.visibility = View.GONE
-            animateViewsIn()
+            if (!animated) animateViewsIn()
         }
 
         override fun onError(e: Exception?) {
             binding.progressBar.visibility = View.GONE
+            showSnackBar()
         }
-
     }
+
+    private fun showDatePicker() {
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            //set date
+            nasaAPODViewModel.setDate(
+                year = year,
+                month = month,
+                day = dayOfMonth
+            )
+        }
+        val datePicker = DatePickerDialog(
+            requireContext(),
+            R.style.Nasa_DatePickerTheme,
+            dateSetListener,
+            nasaAPODViewModel.getDate().get(YEAR),
+            nasaAPODViewModel.getDate().get(MONTH),
+            nasaAPODViewModel.getDate().get(DAY_OF_MONTH)
+        )
+        datePicker.datePicker.maxDate = getInstance().timeInMillis
+        datePicker.show()
+    }
+
+    /** Animation **/
 
     private fun animateViewsIn() {
         for (i in 0 until binding.container.childCount) {
             animateEachViewIn(binding.container.getChildAt(i), i)
         }
+        animated = true
     }
 
     private fun animateEachViewIn(child: View, i: Int) {
         child.animate()
             .translationY(0f)
             .alpha(1f)
-            .scaleX(1f)
-            .scaleY(1f)
-            .setStartDelay(500)
-            .setDuration((200 * i).toLong())
+            .scaleX(1f).scaleY(1f)
+            .setStartDelay(500).setDuration((200 * i).toLong())
             .setInterpolator(DecelerateInterpolator(2f))
             .start()
     }
@@ -160,6 +203,5 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
             return@setOnApplyWindowInsetsListener windowInsets
         }
     }
-
 
 }

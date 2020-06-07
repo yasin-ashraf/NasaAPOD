@@ -13,5 +13,5 @@ class NasaAPODRepository @Inject constructor(
     private val nasaApiInterface: NasaApiInterface
 ) {
 
-    fun getApod() : Single<Apod> = nasaApiInterface.getApod(API_KEY)
+    fun getApod(date : String?) : Single<Apod> = nasaApiInterface.getApod(API_KEY,date ?: "2019-01-01")
 }
