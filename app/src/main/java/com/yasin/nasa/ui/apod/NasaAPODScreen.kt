@@ -4,17 +4,23 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.navGraphViewModels
 import com.yasin.nasa.R
 import com.yasin.nasa.databinding.ScreenFirstBinding
+import com.yasin.nasa.getAppComponent
+import javax.inject.Inject
 
 /**
  * Created by Yasin on 7/6/20.
  */
 class NasaAPODScreen : Fragment(R.layout.screen_first) {
 
+    @Inject lateinit var nasaAPODViewModelFactory: NasaAPODViewModelFactory
     private lateinit var binding: ScreenFirstBinding
+    private val nasaAPODViewModel: NasaAPODViewModel by navGraphViewModels(R.id.nav_main) { nasaAPODViewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        getAppComponent().injectApodScreen(this)
         super.onCreate(savedInstanceState)
     }
 
