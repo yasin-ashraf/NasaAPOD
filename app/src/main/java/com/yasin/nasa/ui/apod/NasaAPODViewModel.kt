@@ -54,9 +54,14 @@ class NasaAPODViewModel @Inject constructor(
                 .subscribe({
                     if (it != null) {
                         _apodData.value = Success(it)
-                        _hdUrl.value = it.hdurl
-                        if (it.mediaType == TYPE_IMAGE) _mediaType.value = TYPE_IMAGE
-                        else _mediaType.value = TYPE_VIDEO
+                        if (it.mediaType == TYPE_IMAGE){
+                            _mediaType.value = TYPE_IMAGE
+                            _hdUrl.value = it.hdurl
+                        }
+                        else {
+                            _mediaType.value = TYPE_VIDEO
+                            _hdUrl.value = it.url
+                        }
                     } else {
                         _apodData.value = Error("Error fetching data!")
                     }
@@ -80,6 +85,10 @@ class NasaAPODViewModel @Inject constructor(
     }
 
     fun getDate() : Calendar = calendar
+
+    fun reloadVideo() {
+        this._hdUrl.value = _hdUrl.value
+    }
 
     override fun onCleared() {
         super.onCleared()

@@ -40,7 +40,7 @@ class PhotoViewScreen : Fragment(R.layout.screen_photo_view) {
         nasaAPODViewModel.hdUrl.observe(this.viewLifecycleOwner, Observer {
             if (it != null) {
                 picasso.load(it)
-                    .fit().into(binding.zoomView, imageLoadCallBack)
+                    .into(binding.zoomView, imageLoadCallBack)
             }
         })
     }
@@ -57,18 +57,10 @@ class PhotoViewScreen : Fragment(R.layout.screen_photo_view) {
         }
     }
 
-
     private fun insetWindow() {
         binding.root.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
-
-        binding.root.setOnApplyWindowInsetsListener { _, windowInsets ->
-
-            // clear this listener so insets aren't re-applied
-            binding.root.setOnApplyWindowInsetsListener(null)
-            return@setOnApplyWindowInsetsListener windowInsets
-        }
     }
 
 

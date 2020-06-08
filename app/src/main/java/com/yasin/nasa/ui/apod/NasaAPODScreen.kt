@@ -77,6 +77,7 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
 
                     TYPE_VIDEO -> {
                         binding.zoomPlay.text = getString(R.string.play)
+                        buttonActionId = R.id.action_nasaAPODScreen_to_videoViewScreen
                     }
                 }
             }

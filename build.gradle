@@ -28,7 +28,8 @@ buildscript {
             'logging_interceptor': '4.5.0',
             'gson'               : '2.8.6',
             'picasso'            : '2.71828',
-            'photoView'          : '2.1.4'
+            'photoView'          : '2.1.4',
+            'exoPlayer'          : '2.10.4'
     ]
     repositories {
         google()

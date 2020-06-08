@@ -65,6 +65,13 @@ dependencies {
   implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
   //PhotoView
   implementation "com.github.chrisbanes:PhotoView:${library.photoView}"
+  //Exoplayer
+  implementation "com.google.android.exoplayer:exoplayer:${library.exoPlayer}"
+  //Youtube link-extractor
+  implementation ('com.github.Commit451:YouTubeExtractor:6.0.0') {
+    exclude group: "com.squareup.okhttp3"
+    exclude group: "io.reactivex.rxjava2"
+  }
 
   testImplementation 'junit:junit:4.12'
   androidTestImplementation 'androidx.test.ext:junit:1.1.1'

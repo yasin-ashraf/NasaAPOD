@@ -6,6 +6,7 @@ import com.yasin.nasa.di.module.NetworkModule
 import com.yasin.nasa.di.module.PicassoModule
 import com.yasin.nasa.di.module.RetrofitModule
 import com.yasin.nasa.ui.PhotoViewScreen
+import com.yasin.nasa.ui.VideoViewScreen
 import com.yasin.nasa.ui.apod.NasaAPODScreen
 import dagger.BindsInstance
 import dagger.Component
@@ -20,6 +21,7 @@ import dagger.Component
 interface MainComponent {
     fun injectApodScreen(nasaAPODScreen: NasaAPODScreen)
     fun injectPhotoScreen(photoViewScreen: PhotoViewScreen)
+    fun injectVideoScreen(videoViewScreen: VideoViewScreen)
 
     @Component.Builder
     interface Builder {
