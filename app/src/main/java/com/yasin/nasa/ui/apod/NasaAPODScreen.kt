@@ -3,6 +3,7 @@ package com.yasin.nasa.ui.apod
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
@@ -19,6 +20,12 @@ import com.yasin.nasa.databinding.ScreenFirstBinding
 import com.yasin.nasa.getAppComponent
 import com.yasin.nasa.network.NetworkState.*
 import com.yasin.nasa.util.TYPE_IMAGE
+import com.yasin.nasa.util.getYoutubeVideoIdFromUrl
+import com.yasin.nasa.util.retrieveVideoFrame
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import java.util.Calendar.*
 import javax.inject.Inject
 
@@ -30,6 +37,7 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
     @Inject lateinit var nasaAPODViewModelFactory: NasaAPODViewModelFactory
     @Inject lateinit var picasso: Picasso
     private lateinit var binding: ScreenFirstBinding
+    private lateinit var videoLoadDisposable : Disposable
     private val nasaAPODViewModel: NasaAPODViewModel by navGraphViewModels(R.id.nav_main) { nasaAPODViewModelFactory }
     private lateinit var snackbar: Snackbar
     private var animated : Boolean = false
@@ -49,6 +57,7 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
     private fun init() {
         makeSnackBar()
         subscribeApodData()
+        subscribeHdUrl()
         binding.buttonCalendar.setOnClickListener { showDatePicker() }
     }
 
@@ -63,10 +72,19 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
                     hideSnackBar()
                 }
                 is NetworkError -> {
-                    showSnackBar()
+                    showSnackBar(getString(R.string.no_internet))
                 }
                 is Error -> {
+                    showSnackBar(it.message)
                 }
+            }
+        })
+    }
+
+    private fun subscribeHdUrl() {
+        nasaAPODViewModel.hdUrl.observe(this.viewLifecycleOwner, Observer {
+            if (it != null) {
+                binding.zoomPlay.isEnabled = true
             }
         })
     }
@@ -85,8 +103,9 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
             .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.snackBar_color))
     }
 
-    private fun showSnackBar() {
+    private fun showSnackBar(text : String) {
         if (snackbar.isShownOrQueued) snackbar.dismiss()
+        snackbar.setText(text)
         Handler().postDelayed({ snackbar.show() }, 500) //delay snackBar
     }
 
@@ -97,16 +116,42 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
     private fun render(apod: Apod?) {
         binding.tvHeadline.text = apod?.title
         binding.tvDescription.text = apod?.explanation
-        if (apod?.mediaType == TYPE_IMAGE) binding.tvButton.text = getString(R.string.zoom)
-        else binding.tvButton.text = getString(R.string.play)
-        if(!apod?.hdurl.isNullOrEmpty()){
-            picasso.load(apod?.hdurl)
-                .fit()
-                .into(binding.ivApod, imageLoadCallBack)
-        }else {
-            binding.progressBar.visibility = View.GONE
-            if (!animated) animateViewsIn()
+        if (apod?.mediaType == TYPE_IMAGE) binding.zoomPlay.text = getString(R.string.zoom)
+        else binding.zoomPlay.text = getString(R.string.play)
+        loadImage(apod)
+    }
+
+    private fun loadImage(apod: Apod?) {
+        if (!apod?.url.isNullOrEmpty()) {
+            if (apod?.mediaType == TYPE_IMAGE) {
+                picasso.load(apod.url)
+                    .fit().into(binding.ivApod, imageLoadCallBack)
+            } else {
+                if (apod?.url?.contains("youtube") == true) {
+                    // if youtube url, get thumbnail from url
+                    val thumbnailUrl : String = getYoutubeThumbnail(apod.url)
+                    picasso.load(thumbnailUrl)
+                        .fit().into(binding.ivApod, imageLoadCallBack)
+                }else {
+                    // if not youtube url, try getting the frame from video
+                    videoLoadDisposable = Single.fromCallable { retrieveVideoFrame(apod?.url) }
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ bitmap ->
+                            binding.ivApod.setImageBitmap(bitmap)
+                            Log.d("LOAD VIDEO THUMBNAIL","SUCCESS!")
+                        }, { throwable ->
+                            Log.e("LOAD VIDEO THUMBNAIL",throwable.toString())
+                        })
+                }
+                binding.progressBar.visibility = View.GONE
+                if (!animated) animateViewsIn()
+            }
         }
+    }
+
+    private fun getYoutubeThumbnail(url:String): String {
+        return "http://img.youtube.com/vi/${getYoutubeVideoIdFromUrl(url)}/hqdefault.jpg"
     }
 
     private val imageLoadCallBack: Callback = object : Callback {
@@ -116,8 +161,9 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
         }
 
         override fun onError(e: Exception?) {
+            Log.e("Error loading APOD",e.toString())
             binding.progressBar.visibility = View.GONE
-            showSnackBar()
+            showSnackBar(getString(R.string.error_loading_image))
         }
     }
 
@@ -202,6 +248,11 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
             binding.root.setOnApplyWindowInsetsListener(null)
             return@setOnApplyWindowInsetsListener windowInsets
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if(::videoLoadDisposable.isInitialized) videoLoadDisposable.dispose()
     }
 
 }

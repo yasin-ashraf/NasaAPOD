@@ -4,4 +4,5 @@
     <string name="no_internet">No Internet Connection. Check if you are connected to Internet.</string>
     <string name="action_retry">Retry</string>
     <string name="play">Play</string>
+    <string name="error_loading_image">error downloading photo of the day!!</string>
 </resources>

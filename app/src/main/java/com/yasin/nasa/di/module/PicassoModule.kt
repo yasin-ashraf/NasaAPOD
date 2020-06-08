@@ -6,7 +6,6 @@ import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
 import com.yasin.nasa.di.AppScope
 import com.yasin.nasa.di.ApplicationContext
-import com.yasin.nasa.util.VideoRequestHandler
 
 import dagger.Module
 import dagger.Provides
@@ -22,7 +21,6 @@ class PicassoModule {
     fun picasso(@ApplicationContext context: Context): Picasso {
         return Picasso.Builder(context)
             .loggingEnabled(true)
-            .addRequestHandler(VideoRequestHandler())
             .downloader(OkHttp3Downloader(context))
             .build()
     }

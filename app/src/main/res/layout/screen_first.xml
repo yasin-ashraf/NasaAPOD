@@ -33,6 +33,7 @@
             android:alpha="0"
             android:scaleY="0"
             android:scaleX="0"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -94,32 +95,22 @@
             app:layout_constraintStart_toStartOf="@id/margin_start"
             tools:text="Boeing will pay out $100 million to support families and communities of the 346 people who died in two 737 Max crashes in the last year" />
 
-        <com.google.android.material.card.MaterialCardView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/zoom_play"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:layout_marginBottom="24dp"
             android:alpha="0"
             android:scaleY="0"
             android:scaleX="0"
+            android:enabled="false"
             android:translationY="200dp"
-            android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/nasa_blue_transparent"
-            app:cardCornerRadius="4dp"
+            android:textColor="@color/nasa_white"
+            app:backgroundTint="@color/nasa_blue_transparent"
+            app:cornerRadius="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/margin_end"
-            app:layout_constraintStart_toStartOf="@id/margin_start">
-
-            <TextView
-                android:id="@+id/tv_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/zoom"
-                android:textAppearance="?attr/textAppearanceHeadline4"
-                android:textColor="?attr/colorPrimary" />
-
-        </com.google.android.material.card.MaterialCardView>
+            app:layout_constraintStart_toStartOf="@id/margin_start"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

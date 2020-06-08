@@ -24,9 +24,11 @@ class NasaAPODViewModel @Inject constructor(
 
     private val calendar = getInstance()
     private val decimalFormat: DecimalFormat by lazy { DecimalFormat("00") }
+    private val _hdUrl : MutableLiveData<String> = MutableLiveData()
+    val hdUrl : LiveData<String> get() = _hdUrl
     private val defaultDate: String =
         "${decimalFormat.format(calendar.get(YEAR))}-${decimalFormat.format(
-            calendar.get(MONTH))}-${decimalFormat.format(
+            calendar.get(MONTH) + 1)}-${decimalFormat.format(
             calendar.get(DAY_OF_MONTH)
         )}"
     private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
@@ -48,6 +50,7 @@ class NasaAPODViewModel @Inject constructor(
                 .subscribe({
                     if (it != null) {
                         _apodData.value = Success(it)
+                        _hdUrl.value = it.hdurl
                     } else {
                         _apodData.value = Error("Error fetching data!")
                     }
@@ -63,7 +66,7 @@ class NasaAPODViewModel @Inject constructor(
 
     fun setDate(year : Int, month : Int, day : Int) {
         this._selectedDate.value = "${decimalFormat.format(year)}-${decimalFormat.format(
-           month)}-${decimalFormat.format(day)}"
+           month + 1)}-${decimalFormat.format(day)}"
         calendar.set(YEAR,year)
         calendar.set(MONTH,month)
         calendar.set(DAY_OF_MONTH,day)

@@ -3,6 +3,8 @@
     package="com.yasin.nasa">
 
   <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
   <application
       android:allowBackup="true"
@@ -11,6 +13,7 @@
       android:name=".Nasa"
       android:roundIcon="@mipmap/ic_launcher_round"
       android:supportsRtl="true"
+      android:usesCleartextTraffic="true"
       android:theme="@style/Theme.Nasa">
     <activity android:name=".ui.NasaActivity">
       <intent-filter>
