@@ -10,6 +10,7 @@ import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Callback
@@ -20,6 +21,7 @@ import com.yasin.nasa.databinding.ScreenFirstBinding
 import com.yasin.nasa.getAppComponent
 import com.yasin.nasa.network.NetworkState.*
 import com.yasin.nasa.util.TYPE_IMAGE
+import com.yasin.nasa.util.TYPE_VIDEO
 import com.yasin.nasa.util.getYoutubeVideoIdFromUrl
 import com.yasin.nasa.util.retrieveVideoFrame
 import io.reactivex.Single
@@ -41,6 +43,7 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
     private val nasaAPODViewModel: NasaAPODViewModel by navGraphViewModels(R.id.nav_main) { nasaAPODViewModelFactory }
     private lateinit var snackbar: Snackbar
     private var animated : Boolean = false
+    private var buttonActionId : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         getAppComponent().injectApodScreen(this)
@@ -58,7 +61,26 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
         makeSnackBar()
         subscribeApodData()
         subscribeHdUrl()
+        subscribeMediaType()
+        binding.zoomPlay.setOnClickListener(buttonCLickListener)
         binding.buttonCalendar.setOnClickListener { showDatePicker() }
+    }
+
+    private fun subscribeMediaType() {
+        nasaAPODViewModel.mediaType.observe(this.viewLifecycleOwner, Observer {
+            if (it != null) {
+                when (it) {
+                    TYPE_IMAGE -> {
+                        binding.zoomPlay.text = getString(R.string.zoom)
+                        buttonActionId = R.id.action_nasaAPODScreen_to_photoViewScreen
+                    }
+
+                    TYPE_VIDEO -> {
+                        binding.zoomPlay.text = getString(R.string.play)
+                    }
+                }
+            }
+        })
     }
 
     private fun subscribeApodData() {
@@ -83,9 +105,7 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
 
     private fun subscribeHdUrl() {
         nasaAPODViewModel.hdUrl.observe(this.viewLifecycleOwner, Observer {
-            if (it != null) {
-                binding.zoomPlay.isEnabled = true
-            }
+            binding.zoomPlay.isEnabled = it != null
         })
     }
 
@@ -116,8 +136,6 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
     private fun render(apod: Apod?) {
         binding.tvHeadline.text = apod?.title
         binding.tvDescription.text = apod?.explanation
-        if (apod?.mediaType == TYPE_IMAGE) binding.zoomPlay.text = getString(R.string.zoom)
-        else binding.zoomPlay.text = getString(R.string.play)
         loadImage(apod)
     }
 
@@ -148,6 +166,11 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
                 if (!animated) animateViewsIn()
             }
         }
+    }
+
+    private val buttonCLickListener : View.OnClickListener = View.OnClickListener {
+        animated = false
+        findNavController().navigate(buttonActionId)
     }
 
     private fun getYoutubeThumbnail(url:String): String {

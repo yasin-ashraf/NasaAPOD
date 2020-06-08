@@ -63,6 +63,8 @@ dependencies {
   implementation "io.reactivex.rxjava2:rxandroid:${library.rxAndroid}"
   implementation "io.reactivex.rxjava2:rxjava:${library.rxJava}"
   implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+  //PhotoView
+  implementation "com.github.chrisbanes:PhotoView:${library.photoView}"
 
   testImplementation 'junit:junit:4.12'
   androidTestImplementation 'androidx.test.ext:junit:1.1.1'

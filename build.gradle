@@ -27,7 +27,8 @@ buildscript {
             'rxJava'             : '2.2.18',
             'logging_interceptor': '4.5.0',
             'gson'               : '2.8.6',
-            'picasso'            : '2.71828'
+            'picasso'            : '2.71828',
+            'photoView'          : '2.1.4'
     ]
     repositories {
         google()
@@ -43,6 +44,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "https://jitpack.io" }
     }
 }
 

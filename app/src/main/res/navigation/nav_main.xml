@@ -10,5 +10,17 @@
         android:id="@+id/nasaAPODScreen"
         android:name="com.yasin.nasa.ui.apod.NasaAPODScreen"
         android:label="NasaAPODScreen"
-        tools:layout="@layout/screen_first"/>
+        tools:layout="@layout/screen_first">
+        <action
+            android:id="@+id/action_nasaAPODScreen_to_photoViewScreen"
+            app:destination="@id/photoViewScreen"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoViewScreen"
+        android:name="com.yasin.nasa.ui.PhotoViewScreen"
+        android:label="PhotoViewScreen"
+        tools:layout="@layout/screen_photo_view"/>
+
 </navigation>

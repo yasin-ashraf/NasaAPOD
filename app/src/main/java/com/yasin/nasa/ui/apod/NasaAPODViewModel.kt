@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.yasin.nasa.data.model.Apod
 import com.yasin.nasa.network.NetworkState
 import com.yasin.nasa.network.NetworkState.*
+import com.yasin.nasa.util.TYPE_IMAGE
+import com.yasin.nasa.util.TYPE_VIDEO
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -26,6 +28,8 @@ class NasaAPODViewModel @Inject constructor(
     private val decimalFormat: DecimalFormat by lazy { DecimalFormat("00") }
     private val _hdUrl : MutableLiveData<String> = MutableLiveData()
     val hdUrl : LiveData<String> get() = _hdUrl
+    private val _mediaType : MutableLiveData<String> = MutableLiveData()
+    val mediaType : MutableLiveData<String> get() = _mediaType
     private val defaultDate: String =
         "${decimalFormat.format(calendar.get(YEAR))}-${decimalFormat.format(
             calendar.get(MONTH) + 1)}-${decimalFormat.format(
@@ -51,6 +55,8 @@ class NasaAPODViewModel @Inject constructor(
                     if (it != null) {
                         _apodData.value = Success(it)
                         _hdUrl.value = it.hdurl
+                        if (it.mediaType == TYPE_IMAGE) _mediaType.value = TYPE_IMAGE
+                        else _mediaType.value = TYPE_VIDEO
                     } else {
                         _apodData.value = Error("Error fetching data!")
                     }
