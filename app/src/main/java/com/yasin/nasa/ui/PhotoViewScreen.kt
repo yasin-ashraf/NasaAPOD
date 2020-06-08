@@ -40,6 +40,8 @@ class PhotoViewScreen : Fragment(R.layout.screen_photo_view) {
         nasaAPODViewModel.hdUrl.observe(this.viewLifecycleOwner, Observer {
             if (it != null) {
                 picasso.load(it)
+                    .resize(1080,1080)
+                    .onlyScaleDown()
                     .into(binding.zoomView, imageLoadCallBack)
             }
         })
