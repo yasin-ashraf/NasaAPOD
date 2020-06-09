@@ -74,26 +74,44 @@
             android:alpha="0"
             android:translationY="200dp"
             android:textAppearance="?attr/textAppearanceHeadline3"
-            app:layout_constraintBottom_toTopOf="@id/tv_description"
             app:layout_constraintEnd_toStartOf="@id/button_calendar"
             app:layout_constraintStart_toStartOf="@id/margin_start"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0"
+            android:maxLines="5"
+            android:ellipsize="end"
             tools:text="Boeing dedicates $100 million to victims of 737 Max crashes" />
 
-        <TextView
-            android:id="@+id/tv_description"
+        <ScrollView
+            android:id="@+id/scroll_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="12dp"
             android:alpha="0"
             android:translationY="200dp"
-            android:textAppearance="?attr/textAppearanceBody1"
+            android:overScrollMode="never"
+            android:scrollbarThumbVertical="@color/nasa_blue_transparent_20"
+            android:scrollbarSize="2dp"
+            android:clipToPadding="false"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintTop_toBottomOf="@id/tv_headline"
             app:layout_constraintBottom_toTopOf="@id/zoom_play"
             app:layout_constraintEnd_toEndOf="@id/margin_end"
-            app:layout_constraintStart_toStartOf="@id/margin_start"
-            tools:text="Boeing will pay out $100 million to support families and communities of the 346 people who died in two 737 Max crashes in the last year" />
+            app:layout_constraintStart_toStartOf="@id/margin_start">
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textAppearance="?attr/textAppearanceBody1"
+                tools:text="Boeing will pay out $100 million to support families and communities of the 346 people who died in two 737 Max crashes in the last year" />
+
+        </ScrollView>
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/zoom_play"

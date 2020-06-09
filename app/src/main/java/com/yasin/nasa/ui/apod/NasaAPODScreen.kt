@@ -254,12 +254,12 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
             }
             binding.tvHeadline.layoutParams = lpTvTitle
 
-            val lpTvDescription = binding.tvDescription.layoutParams as ViewGroup.MarginLayoutParams
+            val lpTvDescription = binding.scrollDescription.layoutParams as ViewGroup.MarginLayoutParams
             lpTvDescription.apply {
                 rightMargin += windowInsets.systemWindowInsetRight
                 leftMargin += windowInsets.systemWindowInsetLeft
             }
-            binding.tvDescription.layoutParams = lpTvDescription
+            binding.scrollDescription.layoutParams = lpTvDescription
 
             val lpCvZoomPlay = binding.zoomPlay.layoutParams as ViewGroup.MarginLayoutParams
             lpCvZoomPlay.apply {
