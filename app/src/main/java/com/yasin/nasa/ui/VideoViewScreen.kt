@@ -55,10 +55,6 @@ class VideoViewScreen : Fragment(R.layout.screen_video_view) {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = ScreenVideoViewBinding.bind(view)
