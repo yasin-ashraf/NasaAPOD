@@ -4,7 +4,7 @@
 
 ### About
 AndroidX  
-Material UI
+Material UI  
 Jetpack Navigation Library  
 RxJava 2.0  
 Dagger 2  
