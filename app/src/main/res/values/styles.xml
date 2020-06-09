@@ -3,8 +3,7 @@
     <!--Custom Styles-->
     <style name="Nasa.DatePickerTheme" parent="Theme.MaterialComponents.Light.Dialog">
         <item name="android:datePickerStyle">@style/MaterialDatePickerStyle</item>
-        <item name="colorPrimary">@color/nasa_white</item><!--Button bg color-->
-        <item name="colorOnPrimary">@color/nasa_blue</item><!--Button text color-->
+        <item name="colorPrimary">@color/nasa_blue</item><!--Button bg color-->
         <item name="android:textColorPrimaryInverse">?attr/colorTertiary
         </item> <!-- header date, month color && calendar text highlight color -->
         <item name="android:textColorSecondaryInverse">?attr/colorTertiary
