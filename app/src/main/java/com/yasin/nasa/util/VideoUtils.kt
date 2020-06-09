@@ -30,14 +30,10 @@ fun retrieveVideoFrame(videoPath: String?): Bitmap? {
 }
 
 fun getYoutubeVideoIdFromUrl(inUrl: String): String? {
-    inUrl.replace("&feature=youtu.be", "")
-    if (inUrl.toLowerCase().contains("youtu.be")) {
-        return inUrl.substring(inUrl.lastIndexOf("/") + 1)
-    }
-    val pattern = "(?<=watch\\?v=|/videos/|embed\\/)[^#\\&\\?]*"
+    val pattern = "(?<=watch\\?v=|/videos/|embed/)[^#&?]*"
     val compiledPattern: Pattern = Pattern.compile(pattern)
     val matcher: Matcher = compiledPattern.matcher(inUrl)
     return if (matcher.find()) {
         matcher.group()
-    } else null
+    } else "Id not retrievable"
 }

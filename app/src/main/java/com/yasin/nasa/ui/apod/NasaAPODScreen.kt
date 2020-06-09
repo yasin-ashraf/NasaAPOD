@@ -144,13 +144,13 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
         if (!apod?.url.isNullOrEmpty()) {
             if (apod?.mediaType == TYPE_IMAGE) {
                 picasso.load(apod.url)
-                    .fit().into(binding.ivApod, imageLoadCallBack)
+                    .fit().centerCrop().into(binding.ivApod, imageLoadCallBack)
             } else {
                 if (apod?.url?.contains("youtube") == true) {
                     // if youtube url, get thumbnail from url
                     val thumbnailUrl : String = getYoutubeThumbnail(apod.url)
                     picasso.load(thumbnailUrl)
-                        .fit().into(binding.ivApod, imageLoadCallBack)
+                        .fit().centerCrop().into(binding.ivApod, imageLoadCallBack)
                 }else {
                     // if not youtube url, try getting the frame from video
                     videoLoadDisposable = Single.fromCallable { retrieveVideoFrame(apod?.url) }
@@ -160,6 +160,7 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
                             binding.ivApod.setImageBitmap(bitmap)
                             Log.d("LOAD VIDEO THUMBNAIL","SUCCESS!")
                         }, { throwable ->
+                            showSnackBar(getString(R.string.cannot_get_thumbnail))
                             Log.e("LOAD VIDEO THUMBNAIL",throwable.toString())
                         })
                 }

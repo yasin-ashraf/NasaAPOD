@@ -7,5 +7,6 @@
     <string name="error_loading_image">error downloading photo of the day!!</string>
     <string name="cannot_retrieve_url">Cannot play the video  \ncannot retrieve url from link!</string>
     <string name="action_back">Done</string>
-    <string name="cannot_play">Cannot play video!\nError loading youtube link.</string>
+    <string name="cannot_play">Cannot play video!\nError loading video link.</string>
+    <string name="cannot_get_thumbnail">Cannot get thumbnail from video. \nFormat Not supported!</string>
 </resources>

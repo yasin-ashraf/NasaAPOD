@@ -24,7 +24,7 @@ class NasaAPODViewModel @Inject constructor(
     private val nasaAPODRepository: NasaAPODRepository
 ) : ViewModel() {
 
-    private val calendar = getInstance()
+    private val calendar = getInstance(TimeZone.getTimeZone("UTC"))
     private val decimalFormat: DecimalFormat by lazy { DecimalFormat("00") }
     private val _hdUrl : MutableLiveData<String> = MutableLiveData()
     val hdUrl : LiveData<String> get() = _hdUrl

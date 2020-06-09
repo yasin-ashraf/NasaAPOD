@@ -183,14 +183,8 @@ class VideoViewScreen : Fragment(R.layout.screen_video_view) {
     private val playerEventListener : Player.EventListener = object : Player.EventListener {
         override fun onPlayerError(error: ExoPlaybackException?) {
             super.onPlayerError(error)
-            if (error?.type == ExoPlaybackException.TYPE_SOURCE) {
-                val exception: IOException = error.sourceException
-                if (exception is HttpDataSource.HttpDataSourceException) {
-                    //HTTP error occured. something wrong with loading youtube url
-                    binding.progressBar.visibility = View.GONE
-                    showSnackBar(getString(R.string.cannot_play))
-                }
-            }
+            binding.progressBar.visibility = View.GONE
+            showSnackBar(getString(R.string.cannot_play))
         }
 
         override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
