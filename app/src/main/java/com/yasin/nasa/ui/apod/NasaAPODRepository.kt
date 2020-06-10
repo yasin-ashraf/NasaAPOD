@@ -14,4 +14,6 @@ class NasaAPODRepository @Inject constructor(
 ) {
 
     fun getApod(date : String?) : Single<Apod> = nasaApiInterface.getApod(API_KEY,date ?: "2019-01-01")
+
+    fun getDefaultApod() : Single<Apod> = nasaApiInterface.getDefaultApod(API_KEY)
 }

@@ -24,16 +24,17 @@ class NasaAPODViewModel @Inject constructor(
     private val nasaAPODRepository: NasaAPODRepository
 ) : ViewModel() {
 
-    private val calendar = getInstance(TimeZone.getTimeZone("UTC"))
+    private val selectedDateCalenar = getInstance(TimeZone.getTimeZone("UTC"))
+    private val currentDateCalendar = getInstance(TimeZone.getTimeZone("UTC"))
     private val decimalFormat: DecimalFormat by lazy { DecimalFormat("00") }
     private val _hdUrl : MutableLiveData<String> = MutableLiveData()
     val hdUrl : LiveData<String> get() = _hdUrl
     private val _mediaType : MutableLiveData<String> = MutableLiveData()
     val mediaType : MutableLiveData<String> get() = _mediaType
     private val defaultDate: String =
-        "${decimalFormat.format(calendar.get(YEAR))}-${decimalFormat.format(
-            calendar.get(MONTH) + 1)}-${decimalFormat.format(
-            calendar.get(DAY_OF_MONTH)
+        "${decimalFormat.format(selectedDateCalenar.get(YEAR))}-${decimalFormat.format(
+            selectedDateCalenar.get(MONTH) + 1)}-${decimalFormat.format(
+            selectedDateCalenar.get(DAY_OF_MONTH)
         )}"
     private val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
     private val _selectedDate: MutableLiveData<String> =
@@ -42,10 +43,41 @@ class NasaAPODViewModel @Inject constructor(
     val apodData: LiveData<NetworkState<Apod>> get() = _apodData
 
     init {
-        getApod()
+        getDefaultApod()
     }
 
-    fun getApod() {
+    private fun getDefaultApod() {
+        _apodData.value = Loading
+        compositeDisposable.add(
+            nasaAPODRepository.getDefaultApod()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    if (it != null) {
+                        _apodData.value = Success(it)
+                        if (it.mediaType == TYPE_IMAGE){
+                            _mediaType.value = TYPE_IMAGE
+                            _hdUrl.value = it.hdurl
+                        }
+                        else {
+                            _mediaType.value = TYPE_VIDEO
+                            _hdUrl.value = it.url
+                        }
+                    } else {
+                        _apodData.value = Error("Error fetching data!")
+                    }
+                }, {
+                    if (it is IOException) {
+                        _apodData.value = NetworkError
+                    } else {
+                        _apodData.value = Error("${it.message}")
+                    }
+                })
+        )
+    }
+
+
+    fun getApodForDate() {
         _apodData.value = Loading
         compositeDisposable.add(
             nasaAPODRepository.getApod(_selectedDate.value)
@@ -76,15 +108,19 @@ class NasaAPODViewModel @Inject constructor(
     }
 
     fun setDate(year : Int, month : Int, day : Int) {
-        this._selectedDate.value = "${decimalFormat.format(year)}-${decimalFormat.format(
-           month + 1)}-${decimalFormat.format(day)}"
-        calendar.set(YEAR,year)
-        calendar.set(MONTH,month)
-        calendar.set(DAY_OF_MONTH,day)
-        getApod()
+        selectedDateCalenar.set(YEAR,year)
+        selectedDateCalenar.set(MONTH,month)
+        selectedDateCalenar.set(DAY_OF_MONTH,day)
+        if(selectedDateCalenar.timeInMillis == currentDateCalendar.timeInMillis) {
+            getDefaultApod()
+        }else {
+            this._selectedDate.value = "${decimalFormat.format(year)}-${decimalFormat.format(
+                month + 1)}-${decimalFormat.format(day)}"
+            getApodForDate()
+        }
     }
 
-    fun getDate() : Calendar = calendar
+    fun getDate() : Calendar = selectedDateCalenar
 
     fun reloadVideo() {
         this._hdUrl.value = _hdUrl.value

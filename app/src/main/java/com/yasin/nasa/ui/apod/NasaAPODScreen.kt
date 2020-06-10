@@ -95,9 +95,11 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
                     hideSnackBar()
                 }
                 is NetworkError -> {
+                    binding.progressBar.visibility = View.GONE
                     showSnackBar(getString(R.string.no_internet))
                 }
                 is Error -> {
+                    binding.progressBar.visibility = View.GONE
                     showSnackBar(it.message)
                 }
             }
@@ -117,7 +119,7 @@ class NasaAPODScreen : Fragment(R.layout.screen_first) {
             Snackbar.LENGTH_INDEFINITE
         )
             .setAction(getString(R.string.action_retry)) {
-                nasaAPODViewModel.getApod()
+                nasaAPODViewModel.getApodForDate()
             }
             .setTextColor(ContextCompat.getColor(requireContext(), R.color.nasa_white))
             .setActionTextColor(ContextCompat.getColor(requireContext(), R.color.nasa_white))
