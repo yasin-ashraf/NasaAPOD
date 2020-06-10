@@ -111,7 +111,7 @@ class NasaAPODViewModel @Inject constructor(
         selectedDateCalenar.set(YEAR,year)
         selectedDateCalenar.set(MONTH,month)
         selectedDateCalenar.set(DAY_OF_MONTH,day)
-        if(selectedDateCalenar.timeInMillis == currentDateCalendar.timeInMillis) {
+        if(selectedDateCalenar.time == currentDateCalendar.time) {
             getDefaultApod()
         }else {
             this._selectedDate.value = "${decimalFormat.format(year)}-${decimalFormat.format(
